@@ -30,18 +30,6 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <script>
-        window.addEventListener("message", (function({
-            data
-        }) {
-            if (typeof data === "string") {
-                const IfameBody = JSON.parse(data || '');
-                window.Info = IfameBody.Info;
-                window.token = IfameBody.token;
-                window.isDesktop = IfameBody.isDesktop || false;
-            }
-        }))
-    </script>
     <title>EZS - Báo cáo</title>
 </head>
 
