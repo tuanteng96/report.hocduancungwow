@@ -333,7 +333,7 @@ function ContactList(props) {
         headerRenderer: ({ column }) => {
           return (
             <div className="w-100">
-              <div className="mb-5px w-100">{column.title}</div>
+              <div className="mb-5px w-100 text-uppercase">{column.title}</div>
               <Select
                 isClearable
                 menuPosition="fixed"
@@ -390,7 +390,7 @@ function ContactList(props) {
         headerRenderer: ({ column }) => {
           return (
             <div className="w-100">
-              <div className="mb-5px w-100">{column.title}</div>
+              <div className="mb-5px w-100 text-uppercase">{column.title}</div>
               <input
                 autoComplete="off"
                 type="text"
@@ -427,7 +427,7 @@ function ContactList(props) {
         headerRenderer: ({ column }) => {
           return (
             <div className="w-100">
-              <div className="mb-5px w-100">{column.title}</div>
+              <div className="mb-5px w-100 text-uppercase">{column.title}</div>
               <input
                 autoComplete="off"
                 type="text"
@@ -464,7 +464,7 @@ function ContactList(props) {
         headerRenderer: ({ column }) => {
           return (
             <div className="w-100">
-              <div className="mb-5px w-100">{column.title}</div>
+              <div className="mb-5px w-100 text-uppercase">{column.title}</div>
               <input
                 autoComplete="off"
                 type="text"
@@ -501,7 +501,7 @@ function ContactList(props) {
         headerRenderer: ({ column }) => {
           return (
             <div className="w-100">
-              <div className="mb-5px w-100">{column.title}</div>
+              <div className="mb-5px w-100 text-uppercase">{column.title}</div>
               <input
                 autoComplete="off"
                 type="text"
@@ -547,7 +547,7 @@ function ContactList(props) {
         headerRenderer: ({ column }) => {
           return (
             <div className="w-100">
-              <div className="mb-5px w-100">{column.title}</div>
+              <div className="mb-5px w-100 text-uppercase">{column.title}</div>
               <input
                 autoComplete="off"
                 type="text"
