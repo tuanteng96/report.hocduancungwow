@@ -216,7 +216,7 @@ function ContactList(props) {
     PermissionHelpers.ExportExcel({
       FuncStart: () => setLoadingExport(true),
       FuncEnd: () => setLoadingExport(false),
-      FuncApi: () => reportsApi.getListContact({ ...filters, Ps: 5000 }),
+      FuncApi: () => reportsApi.getListContact({ ...filters, Ps: 1500 }),
       UrlName: '/list-contact'
     })
   }
