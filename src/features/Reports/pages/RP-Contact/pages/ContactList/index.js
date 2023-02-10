@@ -677,7 +677,7 @@ function ContactList(props) {
             onClick={onExport}
             disabled={loadingExport}
           >
-            <i class="far fa-file-excel pr-8px"></i>Xuất Excel
+            <i className="far fa-file-excel pr-8px"></i>Xuất Excel
           </button>
           <IconMenuMobile />
         </div>
