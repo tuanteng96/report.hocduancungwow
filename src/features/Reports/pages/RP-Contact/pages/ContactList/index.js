@@ -669,9 +669,10 @@ function ContactList(props) {
             </div>
           )}
           <button
+            id="export-excel"
             type="button"
             className={clsx(
-              'btn btn-primary',
+              'btn btn-primary d-none',
               loadingExport && 'spinner spinner-white spinner-right'
             )}
             onClick={onExport}
