@@ -7,7 +7,6 @@ import { uuidv4 } from '@nikitababko/id-generator'
 import clsx from 'clsx'
 import Select from 'react-select'
 import { PermissionHelpers } from 'src/helpers/PermissionHelpers'
-import { DevHelpers } from 'src/helpers/DevHelpers'
 import Swal from 'sweetalert2'
 
 import moment from 'moment'
@@ -303,6 +302,10 @@ function ContactList(props) {
             })
           })
           .catch(error => console(error))
+      }
+    }).then(({ isDismissed }) => {
+      if (isDismissed) {
+        setLoadingUpdate(false)
       }
     })
   }
@@ -717,9 +720,8 @@ function ContactList(props) {
             id="export-excel"
             type="button"
             className={clsx(
-              'btn btn-primary',
-              loadingExport && 'spinner spinner-white spinner-right',
-              !DevHelpers.isDevelopment() ? 'd-none' : ''
+              'btn btn-primary d-none',
+              loadingExport && 'spinner spinner-white spinner-right'
             )}
             onClick={onExport}
             disabled={loadingExport}
