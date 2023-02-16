@@ -29,6 +29,19 @@ const StatusList = [
   }
 ]
 
+const getNameDownload = name => {
+  if (!name) return ''
+  const filePop = name.split('.').pop()
+  const nameSplit = name.split('.')
+  if (nameSplit && nameSplit.length > 0) {
+    return nameSplit[0]
+      .replace(/^(.*[/\\])?/, '')
+      .replace(/(\.[^.]*)$/, '')
+      .replace(`-${filePop}`, '')
+  }
+  return name
+}
+
 const getStatus = status => {
   if (!status || status === 'CHUA_XEM') {
     return <span className="text-uppercase fw-600 font-size-sm">Chưa xem</span>
@@ -86,8 +99,9 @@ const DetailRenderer = ({ filters, rowData, ...props }) => {
               <a
                 className="pl-3px"
                 href={`/upload/image/${content.Src}`}
-                target="_blank"
+                //target="_blank"
                 rel="noreferrer"
+                download={getNameDownload(content.Src)}
               >
                 Tải danh sách
               </a>
@@ -124,8 +138,9 @@ const DetailRenderer = ({ filters, rowData, ...props }) => {
               <a
                 className="pl-3px"
                 href={`/upload/image/${content.SanPham}`}
-                target="_blank"
+                //target="_blank"
                 rel="noreferrer"
+                download={getNameDownload(content.SanPham)}
               >
                 (Tải sản phẩm )
               </a>
@@ -137,8 +152,9 @@ const DetailRenderer = ({ filters, rowData, ...props }) => {
                   <a
                     className="pl-3px"
                     href={`/upload/image/${content.KichBan}`}
-                    target="_blank"
+                    //target="_blank"
                     rel="noreferrer"
+                    download={getNameDownload(content.KichBan)}
                   >
                     Tải kịch bản
                   </a>
@@ -421,8 +437,9 @@ function ContactList(props) {
         cellRenderer: ({ rowData }) => (
           <a
             href={`/upload/image/${rowData.Src}`}
-            target="_blank"
+            //target="_blank"
             rel="noreferrer"
+            download={getNameDownload(rowData.Src)}
           >
             Tải danh sách
           </a>
@@ -588,8 +605,9 @@ function ContactList(props) {
         cellRenderer: ({ rowData }) => (
           <a
             href={`/upload/image/${rowData.SanPham}`}
-            target="_blank"
+            //target="_blank"
             rel="noreferrer"
+            download={getNameDownload(rowData.SanPham)}
           >
             {rowData.Ten_sp}
           </a>
