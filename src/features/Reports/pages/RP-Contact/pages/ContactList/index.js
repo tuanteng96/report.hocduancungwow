@@ -720,7 +720,7 @@ function ContactList(props) {
             id="export-excel"
             type="button"
             className={clsx(
-              'btn btn-primary d-none',
+              'btn btn-primary',
               loadingExport && 'spinner spinner-white spinner-right'
             )}
             onClick={onExport}
