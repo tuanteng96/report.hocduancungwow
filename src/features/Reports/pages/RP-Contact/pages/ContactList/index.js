@@ -6,10 +6,12 @@ import reportsApi from 'src/api/reports.api'
 import { uuidv4 } from '@nikitababko/id-generator'
 import clsx from 'clsx'
 import Select from 'react-select'
+import { PermissionHelpers } from 'src/helpers/PermissionHelpers'
+import { DevHelpers } from 'src/helpers/DevHelpers'
+import Swal from 'sweetalert2'
 
 import moment from 'moment'
 import 'moment/locale/vi'
-import { PermissionHelpers } from 'src/helpers/PermissionHelpers'
 
 moment.locale('vi')
 
@@ -240,6 +242,38 @@ function ContactList(props) {
   }
 
   const onChangeStatus = type => {
+    let title = ''
+    let desc = ''
+    if (type === 'XOA') {
+      title =
+        Selected.length > 0
+          ? 'Xóa các đăng ký dự thi đã chọn ?'
+          : 'Xóa tất cả đăng ký dự thi ?'
+      desc =
+        Selected.length > 0
+          ? 'Thực hiện xóa đăng ký dự thi được chọn. Bạn có chắc chắn muốn xóa không ?'
+          : 'Thực hiện xóa tất cả đăng ký dự thi. Bạn có chắc chắn muốn xóa không ?'
+    }
+    if (type === 'DA_XEM') {
+      title =
+        Selected.length > 0
+          ? 'Đã xem đăng ký dự thi đã chọn ?'
+          : 'Đã xem tất cả đăng ký dự thi ?'
+      desc =
+        Selected.length > 0
+          ? 'Thực hiện xem đăng ký dự thi được chọn. Bạn có chắc chắn muốn thực hiện không ?'
+          : 'Thực hiện xem tất cả đăng ký dự thi. Bạn có chắc chắn muốn thực hiện không ?'
+    }
+    if (type === 'CHUA_XEM') {
+      title =
+        Selected.length > 0
+          ? 'Chưa xem đăng ký dự thi đã chọn ?'
+          : 'Chưa xem tất cả đăng ký dự thi ?'
+      desc =
+        Selected.length > 0
+          ? 'Thực hiện đánh dấu chưa xem đăng ký dự thi được chọn. Bạn có chắc chắn muốn thực hiện không ?'
+          : 'Thực hiện đánh dấu chưa xem tất cả đăng ký dự thi. Bạn có chắc chắn muốn thực hiện không ?'
+    }
     setLoadingUpdate(type)
     const obj = {
       update: {
@@ -247,17 +281,30 @@ function ContactList(props) {
         status: type
       }
     }
-    reportsApi
-      .updateStatus(obj)
-      .then(({ data }) => {
-        getListContact(false, () => {
-          setSelected([])
-          setLoadingUpdate(false)
-          window.top.toastr &&
-            window.top.toastr.success('Cập nhập thành công', { timeOut: 1000 })
-        })
-      })
-      .catch(error => console(error))
+    Swal.fire({
+      icon: 'warning',
+      title: title,
+      text: desc,
+      showCancelButton: true,
+      confirmButtonText: 'Thực hiện',
+      cancelButtonText: 'Hủy',
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        reportsApi
+          .updateStatus(obj)
+          .then(({ data }) => {
+            getListContact(false, () => {
+              setSelected([])
+              setLoadingUpdate(false)
+              window.top.toastr &&
+                window.top.toastr.success('Cập nhập thành công', {
+                  timeOut: 1000
+                })
+            })
+          })
+          .catch(error => console(error))
+      }
+    })
   }
 
   const columns = useMemo(
@@ -587,6 +634,7 @@ function ContactList(props) {
         cellRenderer: () => <span className="fw-500">Xem chi tiết</span>
       }
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [Selected, ListData]
   )
 
@@ -631,49 +679,47 @@ function ContactList(props) {
           </span>
         </div>
         <div className="d-flex justify-content-end">
-          {Selected && Selected.length > 0 && (
-            <div className="d-flex">
-              <button
-                className={clsx(
-                  'btn btn-secondary',
-                  loadingUpdate === 'CHUA_XEM' &&
-                    'spinner spinner-white spinner-right'
-                )}
-                disabled={loadingUpdate === 'CHUA_XEM'}
-                onClick={() => onChangeStatus('CHUA_XEM')}
-              >
-                Chưa xem
-              </button>
-              <button
-                className={clsx(
-                  'btn btn-success ml-6px',
-                  loadingUpdate === 'DA_XEM' &&
-                    'spinner spinner-white spinner-right'
-                )}
-                disabled={loadingUpdate === 'DA_XEM'}
-                onClick={() => onChangeStatus('DA_XEM')}
-              >
-                Đã xem
-              </button>
-              <button
-                className={clsx(
-                  'btn btn-danger mx-6px',
-                  loadingUpdate === 'XOA' &&
-                    'spinner spinner-white spinner-right'
-                )}
-                disabled={loadingUpdate === 'XOA'}
-                onClick={() => onChangeStatus('XOA')}
-              >
-                Xóa
-              </button>
-            </div>
-          )}
+          <div className="d-flex">
+            <button
+              className={clsx(
+                'btn btn-secondary',
+                loadingUpdate === 'CHUA_XEM' &&
+                  'spinner spinner-white spinner-right'
+              )}
+              disabled={loadingUpdate === 'CHUA_XEM'}
+              onClick={() => onChangeStatus('CHUA_XEM')}
+            >
+              Chưa xem
+            </button>
+            <button
+              className={clsx(
+                'btn btn-success ml-6px',
+                loadingUpdate === 'DA_XEM' &&
+                  'spinner spinner-white spinner-right'
+              )}
+              disabled={loadingUpdate === 'DA_XEM'}
+              onClick={() => onChangeStatus('DA_XEM')}
+            >
+              Đã xem
+            </button>
+            <button
+              className={clsx(
+                'btn btn-danger mx-6px',
+                loadingUpdate === 'XOA' && 'spinner spinner-white spinner-right'
+              )}
+              disabled={loadingUpdate === 'XOA'}
+              onClick={() => onChangeStatus('XOA')}
+            >
+              Xóa
+            </button>
+          </div>
           <button
             id="export-excel"
             type="button"
             className={clsx(
-              'btn btn-primary d-none',
-              loadingExport && 'spinner spinner-white spinner-right'
+              'btn btn-primary',
+              loadingExport && 'spinner spinner-white spinner-right',
+              !DevHelpers.isDevelopment() ? 'd-none' : ''
             )}
             onClick={onExport}
             disabled={loadingExport}
