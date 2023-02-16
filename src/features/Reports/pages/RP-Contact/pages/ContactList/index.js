@@ -174,6 +174,7 @@ function ContactList(props) {
   const [ListData, setListData] = useState([])
   const [Selected, setSelected] = useState([])
   const [PageCount, setPageCount] = useState(0)
+  const [PageTotal, setPageTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [loadingUpdate, setLoadingUpdate] = useState('')
   const [isFilter, setIsFilter] = useState(false)
@@ -197,7 +198,7 @@ function ContactList(props) {
     reportsApi
       .getListContact(filters)
       .then(({ data }) => {
-        const { Items, PCounts } = {
+        const { Items, PCounts, Total } = {
           Items:
             data?.items?.map((item, index) => ({
               ...item,
@@ -219,6 +220,7 @@ function ContactList(props) {
         setListData(Items)
         setLoading(false)
         setPageCount(PCounts)
+        setPageTotal(Total)
         isFilter && setIsFilter(false)
         callback && callback()
       })
@@ -233,7 +235,7 @@ function ContactList(props) {
     PermissionHelpers.ExportExcel({
       FuncStart: () => setLoadingExport(true),
       FuncEnd: () => setLoadingExport(false),
-      FuncApi: () => reportsApi.getListContact({ ...filters, Ps: 1500 }),
+      FuncApi: () => reportsApi.getListContact({ ...filters, Ps: PageTotal }),
       UrlName: '/list-contact'
     })
   }
